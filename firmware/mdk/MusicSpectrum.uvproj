@@ -349,9 +349,9 @@
             <uSurpInc>0</uSurpInc>
             <VariousControls>
               <MiscControls>--c99;</MiscControls>
-              <Define>STM32F4XX,USE_STDPERIPH_DRIVER STM32F10X_MD</Define>
+              <Define>STM32F401xx,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\driver\inc;..\framework;..\lib\CMSIS\Include;..\lib\CMSIS\STM32F10x\Include;..\user;..\user\module;..\lib\STM32F10x_StdPeriph_Driver\inc</IncludePath>
+              <IncludePath>..\driver\inc;..\framework;..\lib\CMSIS\STM32F4xx\Include;..\lib\CMSIS\Include;..\user;..\user\module;..\lib\STM32F4xx_StdPeriph_Driver\inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -393,9 +393,9 @@
           <GroupName>startup</GroupName>
           <Files>
             <File>
-              <FileName>startup_stm32f10x_md.s</FileName>
+              <FileName>startup_stm32f4xx.s</FileName>
               <FileType>2</FileType>
-              <FilePath>..\lib\CMSIS\STM32F10x\Source\arm\startup_stm32f10x_md.s</FilePath>
+              <FilePath>..\lib\CMSIS\STM32F4xx\Source\arm\startup_stm32f4xx.s</FilePath>
             </File>
           </Files>
         </Group>
@@ -428,11 +428,6 @@
               <FilePath>..\framework\module.c</FilePath>
             </File>
             <File>
-              <FileName>queue.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\framework\queue.c</FilePath>
-            </File>
-            <File>
               <FileName>ringbuffer.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\framework\ringbuffer.c</FilePath>
@@ -443,9 +438,9 @@
           <GroupName>CMSIS</GroupName>
           <Files>
             <File>
-              <FileName>system_stm32f10x.c</FileName>
+              <FileName>system_stm32f4xx.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\lib\CMSIS\STM32F10x\Source\system_stm32f10x.c</FilePath>
+              <FilePath>..\lib\CMSIS\STM32F4xx\Source\system_stm32f4xx.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -455,47 +450,62 @@
             <File>
               <FileName>misc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\lib\STM32F10x_StdPeriph_Driver\src\misc.c</FilePath>
+              <FilePath>..\lib\STM32F4xx_StdPeriph_Driver\src\misc.c</FilePath>
             </File>
             <File>
-              <FileName>stm32f10x_adc.c</FileName>
+              <FileName>stm32f4xx_adc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\lib\STM32F10x_StdPeriph_Driver\src\stm32f10x_adc.c</FilePath>
+              <FilePath>..\lib\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_adc.c</FilePath>
             </File>
             <File>
-              <FileName>stm32f10x_dma.c</FileName>
+              <FileName>stm32f4xx_dma.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\lib\STM32F10x_StdPeriph_Driver\src\stm32f10x_dma.c</FilePath>
+              <FilePath>..\lib\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_dma.c</FilePath>
             </File>
             <File>
-              <FileName>stm32f10x_exti.c</FileName>
+              <FileName>stm32f4xx_flash.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\lib\STM32F10x_StdPeriph_Driver\src\stm32f10x_exti.c</FilePath>
+              <FilePath>..\lib\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_flash.c</FilePath>
             </File>
             <File>
-              <FileName>stm32f10x_flash.c</FileName>
+              <FileName>stm32f4xx_gpio.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\lib\STM32F10x_StdPeriph_Driver\src\stm32f10x_flash.c</FilePath>
+              <FilePath>..\lib\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_gpio.c</FilePath>
             </File>
             <File>
-              <FileName>stm32f10x_gpio.c</FileName>
+              <FileName>stm32f4xx_rcc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\lib\STM32F10x_StdPeriph_Driver\src\stm32f10x_gpio.c</FilePath>
+              <FilePath>..\lib\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_rcc.c</FilePath>
             </File>
             <File>
-              <FileName>stm32f10x_rcc.c</FileName>
+              <FileName>stm32f4xx_spi.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\lib\STM32F10x_StdPeriph_Driver\src\stm32f10x_rcc.c</FilePath>
+              <FilePath>..\lib\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_spi.c</FilePath>
             </File>
             <File>
-              <FileName>stm32f10x_tim.c</FileName>
+              <FileName>stm32f4xx_syscfg.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\lib\STM32F10x_StdPeriph_Driver\src\stm32f10x_tim.c</FilePath>
+              <FilePath>..\lib\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_syscfg.c</FilePath>
             </File>
             <File>
-              <FileName>stm32f10x_usart.c</FileName>
+              <FileName>stm32f4xx_tim.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\lib\STM32F10x_StdPeriph_Driver\src\stm32f10x_usart.c</FilePath>
+              <FilePath>..\lib\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_tim.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_usart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_usart.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_exti.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_exti.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_iwdg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_iwdg.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -503,14 +513,114 @@
           <GroupName>user</GroupName>
           <Files>
             <File>
+              <FileName>stm32f4xx_it.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\user\stm32f4xx_it.c</FilePath>
+            </File>
+            <File>
+              <FileName>spectrum.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\user\spectrum.c</FilePath>
+            </File>
+            <File>
+              <FileName>cr2fft_512.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\user\cr2fft_512.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>0</IncludeInBuild>
+                  <AlwaysBuild>2</AlwaysBuild>
+                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
+                  <PublicsOnly>2</PublicsOnly>
+                  <StopOnExitCode>11</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>0</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <VariousControls>
+                      <MiscControls></MiscControls>
+                      <Define></Define>
+                      <Undefine></Undefine>
+                      <IncludePath></IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
+            </File>
+            <File>
+              <FileName>cr2fft_256.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\user\cr2fft_256.c</FilePath>
+            </File>
+            <File>
+              <FileName>cr2fft_128.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\user\cr2fft_128.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>0</IncludeInBuild>
+                  <AlwaysBuild>2</AlwaysBuild>
+                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
+                  <PublicsOnly>2</PublicsOnly>
+                  <StopOnExitCode>11</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>0</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <VariousControls>
+                      <MiscControls></MiscControls>
+                      <Define></Define>
+                      <Undefine></Undefine>
+                      <IncludePath></IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
+            </File>
+            <File>
               <FileName>audio_sample.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\user\audio_sample.c</FilePath>
-            </File>
-            <File>
-              <FileName>cr2fft.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\user\cr2fft.c</FilePath>
             </File>
             <File>
               <FileName>main.c</FileName>
@@ -527,26 +637,21 @@
               <FileType>1</FileType>
               <FilePath>..\user\public.c</FilePath>
             </File>
-            <File>
-              <FileName>spectrum.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\user\spectrum.c</FilePath>
-            </File>
-            <File>
-              <FileName>stm32f10x_it.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\user\stm32f10x_it.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
           <GroupName>user/task</GroupName>
           <Files>
             <File>
-              <FileName>cmd_devinfo.c</FileName>
+              <FileName>cli_task.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\user\cmd\cmd_devinfo.c</FilePath>
+              <FilePath>..\user\task\cli_task.c</FilePath>
             </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>user/cmd</GroupName>
+          <Files>
             <File>
               <FileName>cmd_fft.c</FileName>
               <FileType>1</FileType>
@@ -592,15 +697,10 @@
                 </FileArmAds>
               </FileOption>
             </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>user/cmd</GroupName>
-          <Files>
             <File>
-              <FileName>cli_task.c</FileName>
+              <FileName>cmd_devinfo.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\user\task\cli_task.c</FilePath>
+              <FilePath>..\user\cmd\cmd_devinfo.c</FilePath>
             </File>
           </Files>
         </Group>

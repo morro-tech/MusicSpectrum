@@ -1,7 +1,7 @@
 /******************************************************************************
  * @brief    设备相关命令
  *
- * Copyright (c) 2020, <master_roger@sina.com>
+ * Copyright (c) 2020, <morro_luo@163.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -17,7 +17,7 @@
 #include <stdio.h>
 #include <math.h>
 
-#define FFT_NPT    512
+#define FFT_NPT    256
 
 #define PI         3.1415926535898
 #define Fs         5120               //测试抽样频率

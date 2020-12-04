@@ -1,7 +1,7 @@
 /******************************************************************************
  * @brief    ST MCU 通用外设配置
  *
- * Copyright (c) 2019, <master_roger@sina.com>
+ * Copyright (c) 2019, <morro_luo@163.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -15,12 +15,15 @@
  * @brief       GPIO配置
  * @return      none
  */ 
-void gpio_conf(GPIO_TypeDef* GPIOx, GPIOMode_TypeDef Mode,uint32_t Pins)
+void gpio_conf(GPIO_TypeDef* GPIOx, GPIOMode_TypeDef Mode, GPIOPuPd_TypeDef PuPd,
+               uint32_t Pins)
 {
     GPIO_InitTypeDef config;
     config.GPIO_Pin   = Pins;
     config.GPIO_Mode  = Mode;
+    config.GPIO_OType = GPIO_OType_PP;
     config.GPIO_Speed = GPIO_Speed_50MHz;
+    config.GPIO_PuPd  = PuPd;
     GPIO_Init(GPIOx, &config);
 }
 
@@ -43,11 +46,27 @@ void nvic_conf(int Channel, int Priority, int SubPriority)
 }
 
 
+/* 
+ * @brief       外部中断配置
+ * @param[in]   - Line       中断号
+ * @param[in]   - Trigger    触发器(上升沿/下降沿)
+ * @return      none
+ */
+void exti_conf(uint32_t Line, EXTITrigger_TypeDef Trigger, FunctionalState Cmd)
+{
+    EXTI_InitTypeDef  config = {0};    
+    config.EXTI_Line = Line;
+    config.EXTI_Mode = EXTI_Mode_Interrupt;
+    config.EXTI_Trigger = Trigger;
+    config.EXTI_LineCmd = Cmd;
+    EXTI_Init(&config);
+    EXTI_ClearITPendingBit(Line);
+}
 
 /* 
  * @brief       定时器配置
  * @param[in]   - TIMx       定时器
- * @param[in]   - hz         计数频率
+ * @param[in]   - hz         计数频率(max:1Mhz)
  * @return      none
  */
 void timer_conf(TIM_TypeDef* TIMx, unsigned int hz)
@@ -58,12 +77,12 @@ void timer_conf(TIM_TypeDef* TIMx, unsigned int hz)
     TIM_DeInit(TIMx); 
     RCC_GetClocksFreq(&Clocks);
     /* Time base configuration */
-    config.TIM_Prescaler = 1;
+    config.TIM_Prescaler = 24 - 1;
     if (TIMx == TIM1 || TIMx == TIM8 || TIMx == TIM9 || 
         TIMx == TIM10|| TIMx == TIM11)
-        Period = (float)(Clocks.PCLK2_Frequency / hz + 0.5);     
+        Period = (float)(Clocks.PCLK2_Frequency / (hz * 24.0) + 0.5);     
     else 
-        Period = (float)(Clocks.PCLK1_Frequency / hz + 0.5);   
+        Period = (float)(Clocks.PCLK1_Frequency / (hz * 24.0 * 2) + 0.5);   
 
     config.TIM_Period = (uint32_t)Period - 1;    
     config.TIM_ClockDivision = 0;
@@ -77,7 +96,6 @@ void timer_conf(TIM_TypeDef* TIMx, unsigned int hz)
  * @param[in]   - baudrate   波特率
  * @return      none
  */
-
 void uart_conf(USART_TypeDef *port, int baudrate)
 {
     USART_InitTypeDef config;
@@ -94,4 +112,25 @@ void uart_conf(USART_TypeDef *port, int baudrate)
 
 	USART_Cmd(port, ENABLE);      
 
+}
+
+/* 
+ * @brief       看门狗配置
+ * @param[in]   Tout  - 喂狗超时时间(ms)
+ * @return      none
+ */
+void wdog_conf(unsigned int Tout)
+{
+    IWDG_WritERR_ACCESSCmd(IWDG_WritERR_ACCESS_Enable);
+
+    IWDG_SetPrescaler(IWDG_Prescaler_256);
+    //LSI = 40 Khz
+    //Tout=(256×reload) / 40
+    IWDG_SetReload(Tout * 40 / 256);
+
+    IWDG_ReloadCounter();
+
+    IWDG_Enable();
+    
+    IWDG_WritERR_ACCESSCmd(IWDG_WritERR_ACCESS_Disable);
 }

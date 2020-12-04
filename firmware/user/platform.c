@@ -1,7 +1,7 @@
 /******************************************************************************
  * @brief    平台相关初始化
  *
- * Copyright (c) 2020, <master_roger@sina.com>
+ * Copyright (c) 2020, <morro_luo@163.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -17,7 +17,7 @@
 
 /*
  * @brief	   系统滴答中断
- * @param[in]   none
+ * @param[in]  none
  * @return 	   none
  */
 void SysTick_Handler(void)
@@ -29,11 +29,12 @@ void SysTick_Handler(void)
  * @brief	   重定向printf
  */
 int fputc(int c, FILE *f)
-{    
-    tty.write(&c, 1);     
-    while (tty.tx_isfull()) {}                             //防止缓存不够时丢LOG
+{       
+    tty.write(&c, 1);
+    while (tty.tx_isfull()) {}                           //防止丢LOG
     return c;
 }
+
 
 /*
  * @brief	   硬件驱动初始化
@@ -46,5 +47,18 @@ static void bsp_init(void)
     tty.init(115200);
     SystemCoreClockUpdate();
  	SysTick_Config(SystemCoreClock / (1000 / SYS_TICK_INTERVAL));   //配置系统时钟
-	NVIC_SetPriority(SysTick_IRQn, 0);
+	NVIC_SetPriority(SysTick_IRQn, 0); 
+    
+    wdog_conf(5000);                                      //初始化看门狗
 }system_init("bsp", bsp_init); 
+
+
+
+/*
+ * @brief	   喂狗任务
+ */
+static void wdog_task(void)
+{
+    IWDG_ReloadCounter();
+}task_register("dog", wdog_task, 1000); 
+

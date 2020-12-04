@@ -2100,6 +2100,9 @@
       <name>$PROJ_DIR$\..\driver\src\led_matrix.c</name>
     </file>
     <file>
+      <name>$PROJ_DIR$\..\driver\src\mcu_flash.c</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\..\driver\src\tty.c</name>
     </file>
   </group>
@@ -2120,37 +2123,46 @@
     <group>
       <name>CMSIS</name>
       <file>
-        <name>$PROJ_DIR$\..\lib\CMSIS\STM32F10x\Source\iar\startup_stm32f10x_md.s</name>
+        <name>$PROJ_DIR$\..\lib\CMSIS\STM32F4xx\Source\iar\startup_stm32f4xx.s</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\lib\CMSIS\STM32F10x\Source\system_stm32f10x.c</name>
+        <name>$PROJ_DIR$\..\lib\CMSIS\STM32F4xx\Source\system_stm32f4xx.c</name>
       </file>
     </group>
     <group>
-      <name>STM32F1xx_StdPeriph_Driver</name>
+      <name>STM32F4xx_StdPeriph_Driver</name>
       <file>
-        <name>$PROJ_DIR$\..\lib\STM32F10x_StdPeriph_Driver\src\misc.c</name>
+        <name>$PROJ_DIR$\..\lib\STM32F4xx_StdPeriph_Driver\src\misc.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\lib\STM32F10x_StdPeriph_Driver\src\stm32f10x_adc.c</name>
+        <name>$PROJ_DIR$\..\lib\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_adc.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\lib\STM32F10x_StdPeriph_Driver\src\stm32f10x_dma.c</name>
+        <name>$PROJ_DIR$\..\lib\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_dma.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\lib\STM32F10x_StdPeriph_Driver\src\stm32f10x_flash.c</name>
+        <name>$PROJ_DIR$\..\lib\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_flash.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\lib\STM32F10x_StdPeriph_Driver\src\stm32f10x_gpio.c</name>
+        <name>$PROJ_DIR$\..\lib\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_gpio.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\lib\STM32F10x_StdPeriph_Driver\src\stm32f10x_rcc.c</name>
+        <name>$PROJ_DIR$\..\lib\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_iwdg.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\lib\STM32F10x_StdPeriph_Driver\src\stm32f10x_tim.c</name>
+        <name>$PROJ_DIR$\..\lib\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_rcc.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\lib\STM32F10x_StdPeriph_Driver\src\stm32f10x_usart.c</name>
+        <name>$PROJ_DIR$\..\lib\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_spi.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\lib\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_syscfg.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\lib\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_tim.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\lib\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_usart.c</name>
       </file>
     </group>
   </group>
@@ -2178,7 +2190,13 @@
       <name>$PROJ_DIR$\..\user\config.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\user\cr2fft.c</name>
+      <name>$PROJ_DIR$\..\user\cr2fft_128.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\user\cr2fft_256.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\user\cr2fft_512.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\user\main.c</name>
@@ -2193,7 +2211,10 @@
       <name>$PROJ_DIR$\..\user\spectrum.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\user\stm32f10x_it.c</name>
+      <name>$PROJ_DIR$\..\user\stm32f4xx_conf.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\user\stm32f4xx_it.c</name>
     </file>
   </group>
 </project>

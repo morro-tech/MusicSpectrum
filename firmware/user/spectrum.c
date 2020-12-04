@@ -1,7 +1,7 @@
 /******************************************************************************
  * @brief    音频频谱
  *
- * Copyright (c) 2013~2020, <master_roger@sina.com>
+ * Copyright (c) 2013~2020, <morro_luo@163.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -34,7 +34,7 @@ static signal_handler_t sig = {
     .sample_rate_hz = SAMPLE_RATE          //默认采样率
 };
 
-
+#if 0
 static spectrum_view_t view =  {
     .buoy_hover_time  = 120,               //浮标悬停时间  
     .buoy_fall_time   = 30, 
@@ -43,7 +43,16 @@ static spectrum_view_t view =  {
     .bar_fall_time    = 20,  
     .bar_color        = LED_COLOR_GREEN
 }; 
-
+#else
+static spectrum_view_t view =  {
+    .buoy_hover_time  = 60,               //浮标悬停时间  
+    .buoy_fall_time   = 30, 
+    .buoy_color       = LED_COLOR_RED, 
+    .bar_rise_time    = 5, 
+    .bar_fall_time    = 10,  
+    .bar_color        = LED_COLOR_GREEN
+};
+#endif
 static void spectrum_view_render(void);
 
 /* 
@@ -54,21 +63,21 @@ static void show_logo(spectrum_view_t *v)
 {
     unsigned int startup_delay = get_tick();               //logo显示延时
     int i;  
-    
+    int width_mid = LED_MATRIX_WIDTH / 2;
     v->buoy_color = LED_COLOR_GREEN;
     v->bar_color  = LED_COLOR_YELLOW;
     for (i = 0; i < LED_MATRIX_WIDTH; i++) {
-        if (i == LED_MATRIX_WIDTH / 2)
+        if (i == width_mid)
             v->power[i] = LED_MATRIX_HEIGHT;
         else 
-            v->power[i] =( (int)(16 * (sin((i - 40)  * 0.45) / ((i - 40) * 0.45))  + 16));   
+            v->power[i] =( (int)(16 * (sin((i - width_mid)  * 0.45) / ((i - width_mid) * 0.45))  + 16));   
     }
 
     v->buoy_color = LED_COLOR_RED;
     v->bar_color  = LED_COLOR_GREEN;
     spectrum_view_render();
     while (get_tick() - startup_delay < 2000) {}  
-    
+ 
 }
 
 //频谱分析初始化
@@ -84,36 +93,45 @@ static void spectrum_init(void)
 //开方快速算法
 static float InvSqrt(float x)
 {
-    float xhalf = 0.5f*x;
+    float xhalf = 0.5f * x;
     int i = *(int*)&x;
     i = 0x5f3759df - (i >> 1);        // 计算第一个近似根
     x = *(float*)&i;
-    x = x*(1.5f - xhalf*x*x);         // 牛顿迭代法
+    x = x*(1.5f - xhalf * x * x);    // 牛顿迭代法
     return x;
 }
 
 //计算功率谱(P = sqrt(r * r + i * i) / NPT)
-static void calc_power(spectrum_view_t *v, complex_t *input)
+//#pragma optimize=none
+void calc_power(spectrum_view_t *v, complex_t *input)
 {
-    int i, j, result;
+    int    power_table[LED_MATRIX_WIDTH];
+    int    max_power = 0, power;             
+    int i, j;
     long long real, image;
+    float     factor = 1.0;           //自动增益控制因子 
+
     //P = sqrt(r * r + i * i) / NPT
-    for(i = 0, j = 1; i < LED_MATRIX_WIDTH; i++) {
-        j += 2;
-        //j = (int)(i  * 0.01875 * i + i) + 1;//对频谱进行取样        
+    //计算功率谱
+    for(i = 0, j = 0; i < LED_MATRIX_WIDTH; i++) { 
+        j++;
         real  = input[j].real;
         image = input[j].imag;
-        result = (int)(1.0 / InvSqrt(real * real + image * image ));  
+        power = (int)(1.0 / InvSqrt(real * real + image * image));  
+        power /= NPT;
+        power_table[i] = power;
         
-        result /= NPT  / 2.0;
-
-        if (result > LED_MATRIX_HEIGHT)       //满屏处理
-            result = LED_MATRIX_HEIGHT;
-        
-        v->power[i] = result;
-    }    
+        if (power > max_power)               //统计功率谱中的最大值,用于增益控制
+            max_power = power; 
+    }
+    
+    factor = max_power >= 38 ? max_power / 38.0 : 1.0001;
+    for(i = 0; i < LED_MATRIX_WIDTH; i++) {
+        power = (int)(power_table[i] / factor);     /*增益控制*/
+        v->power[i] = power > LED_MATRIX_HEIGHT ? LED_MATRIX_HEIGHT : power;
+    }
+    
 }
-
 
 /* 
  * @brief       频谱处理任务
@@ -221,4 +239,4 @@ void spectrum_config_get(spectrum_view_t *v)
 
 module_init("logo", spectrum_init);
 task_register("spectrum_task", spectrum_process, 0);
-task_register("spectrum_rende",spectrum_view_render, 5);
+task_register("spectrum_rende",spectrum_view_render, 1);

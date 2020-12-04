@@ -16,9 +16,9 @@
 
 #include "led_matrix.h"
 
-#define NPT                    512            //采样点数
+#define NPT                    256            //采样点数
 
-#define SAMPLE_RATE            40000          //默认抽样频率
+#define SAMPLE_RATE            15000          //默认抽样频率
 
 /*柱条*/
 typedef struct {    

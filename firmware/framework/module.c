@@ -1,15 +1,17 @@
 /******************************************************************************
  * @brief    系统模块管理(包含系统初始化,时间片轮询系统)
  *
- * Copyright (c) 2017~2020, <master_roger@sina.com>
+ * Copyright (c) 2017~2020, <morro_luo@163.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  *
  * Change Logs: 
  * Date           Author       Notes 
- * 2016-06-24     Morro        
+ * 2016-06-24     Morro        初版完成
  * 2020-05-23     Morro        增加匿名类型,防止模块重名错误
  * 2020-06-28     Morro        增加is_timeout超时判断接口
+ * 2020-09-28     Morro        解决伪任务项未初始化timer，导致引用了空指针的问题！
+ *                             
  ******************************************************************************/
 #include "module.h"
 

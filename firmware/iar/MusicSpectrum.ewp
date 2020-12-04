@@ -89,7 +89,7 @@
         </option>
         <option>
           <name>OGChipSelectEditMenu</name>
-          <state>STM32F103xB	ST STM32F103xB</state>
+          <state>STM32F401xE	ST STM32F401xE</state>
         </option>
         <option>
           <name>GenLowLevelInterface</name>
@@ -128,7 +128,7 @@
         <option>
           <name>GBECoreSlave</name>
           <version>22</version>
-          <state>38</state>
+          <state>39</state>
         </option>
         <option>
           <name>OGUseCmsis</name>
@@ -145,21 +145,21 @@
         <option>
           <name>CoreVariant</name>
           <version>22</version>
-          <state>38</state>
+          <state>39</state>
         </option>
         <option>
           <name>GFPUDeviceSlave</name>
-          <state>STM32F103xB	ST STM32F103xB</state>
+          <state>STM32F401xE	ST STM32F401xE</state>
         </option>
         <option>
           <name>FPU2</name>
           <version>0</version>
-          <state>0</state>
+          <state>4</state>
         </option>
         <option>
           <name>NrRegs</name>
           <version>0</version>
-          <state>0</state>
+          <state>1</state>
         </option>
         <option>
           <name>NEON</name>
@@ -168,7 +168,7 @@
         <option>
           <name>GFPUCoreSlave2</name>
           <version>22</version>
-          <state>38</state>
+          <state>39</state>
         </option>
       </data>
     </settings>
@@ -181,7 +181,7 @@
         <debug>1</debug>
         <option>
           <name>CCDefines</name>
-          <state>STM32F10X_MD</state>
+          <state>STM32F401xx</state>
           <state>USE_STDPERIPH_DRIVER</state>
         </option>
         <option>
@@ -243,7 +243,7 @@
         <option>
           <name>CCAllowList</name>
           <version>1</version>
-          <state>11111110</state>
+          <state>10010100</state>
         </option>
         <option>
           <name>CCDebugInfo</name>
@@ -313,10 +313,11 @@
           <name>CCIncludePath2</name>
           <state>$PROJ_DIR$\..\User</state>
           <state>$PROJ_DIR$\..\lib\CMSIS\Include</state>
-          <state>$PROJ_DIR$\..\lib\CMSIS\STM32F10x\Include</state>
-          <state>$PROJ_DIR$\..\lib\STM32F10x_StdPeriph_Driver\inc</state>
+          <state>$PROJ_DIR$\..\lib\CMSIS\STM32F4xx\Include</state>
+          <state>$PROJ_DIR$\..\lib\STM32F4xx_StdPeriph_Driver\inc </state>
           <state>$PROJ_DIR$\..\framework</state>
           <state>$PROJ_DIR$\..\driver\inc</state>
+          <state>$PROJ_DIR$\..\middleware\cjson</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -336,7 +337,7 @@
         </option>
         <option>
           <name>CCOptLevel</name>
-          <state>3</state>
+          <state>2</state>
         </option>
         <option>
           <name>CCOptStrategy</name>
@@ -345,7 +346,7 @@
         </option>
         <option>
           <name>CCOptLevelSlave</name>
-          <state>3</state>
+          <state>2</state>
         </option>
         <option>
           <name>CompilerMisraRules98</name>
@@ -731,7 +732,7 @@
         </option>
         <option>
           <name>IlinkIcfFile</name>
-          <state>$TOOLKIT_DIR$\config\linker\ST\stm32f103xB.icf</state>
+          <state>$TOOLKIT_DIR$\config\linker\ST\stm32f401xE.icf</state>
         </option>
         <option>
           <name>IlinkIcfFileSlave</name>
@@ -1924,6 +1925,9 @@
       <name>$PROJ_DIR$\..\driver\src\led_matrix.c</name>
     </file>
     <file>
+      <name>$PROJ_DIR$\..\driver\src\mcu_flash.c</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\..\driver\src\tty.c</name>
     </file>
   </group>
@@ -1944,37 +1948,46 @@
     <group>
       <name>CMSIS</name>
       <file>
-        <name>$PROJ_DIR$\..\lib\CMSIS\STM32F10x\Source\iar\startup_stm32f10x_md.s</name>
+        <name>$PROJ_DIR$\..\lib\CMSIS\STM32F4xx\Source\iar\startup_stm32f4xx.s</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\lib\CMSIS\STM32F10x\Source\system_stm32f10x.c</name>
+        <name>$PROJ_DIR$\..\lib\CMSIS\STM32F4xx\Source\system_stm32f4xx.c</name>
       </file>
     </group>
     <group>
-      <name>STM32F1xx_StdPeriph_Driver</name>
+      <name>STM32F4xx_StdPeriph_Driver</name>
       <file>
-        <name>$PROJ_DIR$\..\lib\STM32F10x_StdPeriph_Driver\src\misc.c</name>
+        <name>$PROJ_DIR$\..\lib\STM32F4xx_StdPeriph_Driver\src\misc.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\lib\STM32F10x_StdPeriph_Driver\src\stm32f10x_adc.c</name>
+        <name>$PROJ_DIR$\..\lib\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_adc.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\lib\STM32F10x_StdPeriph_Driver\src\stm32f10x_dma.c</name>
+        <name>$PROJ_DIR$\..\lib\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_dma.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\lib\STM32F10x_StdPeriph_Driver\src\stm32f10x_flash.c</name>
+        <name>$PROJ_DIR$\..\lib\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_flash.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\lib\STM32F10x_StdPeriph_Driver\src\stm32f10x_gpio.c</name>
+        <name>$PROJ_DIR$\..\lib\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_gpio.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\lib\STM32F10x_StdPeriph_Driver\src\stm32f10x_rcc.c</name>
+        <name>$PROJ_DIR$\..\lib\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_iwdg.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\lib\STM32F10x_StdPeriph_Driver\src\stm32f10x_tim.c</name>
+        <name>$PROJ_DIR$\..\lib\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_rcc.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\lib\STM32F10x_StdPeriph_Driver\src\stm32f10x_usart.c</name>
+        <name>$PROJ_DIR$\..\lib\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_spi.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\lib\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_syscfg.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\lib\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_tim.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\lib\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_usart.c</name>
       </file>
     </group>
   </group>
@@ -2005,7 +2018,19 @@
       <name>$PROJ_DIR$\..\user\config.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\user\cr2fft.c</name>
+      <name>$PROJ_DIR$\..\user\cr2fft_128.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\user\cr2fft_256.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\user\cr2fft_512.c</name>
+      <excluded>
+        <configuration>Debug</configuration>
+      </excluded>
     </file>
     <file>
       <name>$PROJ_DIR$\..\user\main.c</name>
@@ -2020,7 +2045,10 @@
       <name>$PROJ_DIR$\..\user\spectrum.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\user\stm32f10x_it.c</name>
+      <name>$PROJ_DIR$\..\user\stm32f4xx_conf.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\user\stm32f4xx_it.c</name>
     </file>
   </group>
 </project>

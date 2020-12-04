@@ -1,7 +1,7 @@
 /******************************************************************************
  * @brief    √¸¡Ó––¥¶¿Ì
  *
- * Copyright (c) 2015-2020, <master_roger@sina.com>
+ * Copyright (c) 2015-2020, <morro_luo@163.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -19,7 +19,6 @@
 #include <stdarg.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <stm32f10x.h>
 
 static const cmd_item_t cmd_tbl_start SECTION("cli.cmd.0") = {0};
 static const cmd_item_t cmd_tbl_end SECTION("cli.cmd.4") = {0};    

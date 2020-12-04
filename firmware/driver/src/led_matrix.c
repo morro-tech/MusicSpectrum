@@ -1,7 +1,7 @@
 /******************************************************************************
  * @brief    双色点阵驱动
  *
- * Copyright (c) 2013~2020, <master_roger@sina.com>
+ * Copyright (c) 2013~2020, <morro_luo@163.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -16,11 +16,55 @@
 #include "led_matrix.h"
 #include <string.h>
 
+#define SET_PIN_A(x)        GPIO_WriteBit(GPIOB, GPIO_Pin_0, (BitAction)(x))
+#define SET_PIN_B(x)        GPIO_WriteBit(GPIOB, GPIO_Pin_1, (BitAction)(x))
+#define SET_PIN_C(x)        GPIO_WriteBit(GPIOB, GPIO_Pin_2, (BitAction)(x))
+#define SET_PIN_D(x)        GPIO_WriteBit(GPIOB, GPIO_Pin_3, (BitAction)(x))
+//上半屏红点数据口
+#define SET_PIN_R1(x)       GPIO_WriteBit(GPIOB, GPIO_Pin_4, (BitAction)(x))
+//下半屏红点数据口
+#define SET_PIN_R2(x)       GPIO_WriteBit(GPIOB, GPIO_Pin_5, (BitAction)(x))
+//上半屏绿点数据口
+#define SET_PIN_G1(x)       GPIO_WriteBit(GPIOB, GPIO_Pin_6, (BitAction)(x))
+//下半屏绿点数据口
+#define SET_PIN_G2(x)       GPIO_WriteBit(GPIOB, GPIO_Pin_7, (BitAction)(x))
+//点阵时钟驱动引脚
+#define SET_PIN_CLK(x)      GPIO_WriteBit(GPIOB, GPIO_Pin_10, (BitAction)(x))
+//点阵数据锁存引脚
+#define SET_PIN_STB(x)      GPIO_WriteBit(GPIOB, GPIO_Pin_12, (BitAction)(x))
+//点阵数据使能端
+#define SET_PIN_OE(x)       GPIO_WriteBit(GPIOB, GPIO_Pin_13, (BitAction)(x))
+
 /*LED 显存*/
 unsigned char vmem[LED_MATRIX_HEIGHT][LED_MATRIX_WIDTH];
 
+
 /**
-  * @brief  定时器3配置
+  * @brief  端口初始化
+  */
+static void port_config(void)
+{
+    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB , ENABLE);
+    gpio_conf(GPIOB, GPIO_Mode_OUT, GPIO_PuPd_NOPULL, 
+              GPIO_Pin_0 | GPIO_Pin_1  | GPIO_Pin_2 | 
+              GPIO_Pin_3 | GPIO_Pin_4  | GPIO_Pin_5 | 
+              GPIO_Pin_6 | GPIO_Pin_7  | GPIO_Pin_8 | 
+              GPIO_Pin_9 | GPIO_Pin_10 | GPIO_Pin_12| GPIO_Pin_13);
+        
+    SET_PIN_OE(1);//关闭点阵
+	SET_PIN_R1(0);
+	SET_PIN_R2(0);
+	SET_PIN_G1(0);
+	SET_PIN_G2(0);
+	SET_PIN_CLK(0);
+	SET_PIN_STB(0);
+	SET_PIN_OE(0);//打开点阵 
+    
+}
+
+
+/**
+  * @brief  点阵扫描定时器配置(timer3)
   * @param  None
   * @retval None
   */
@@ -28,7 +72,7 @@ static void timer_config(void)
 {
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3,ENABLE);
     
-    timer_conf(TIM3, 350);                              //刷新频率:(350 / 16)hz
+    timer_conf(TIM3, 300);                              //刷新频率:(400 / 16)hz
     
     TIM_ClearFlag(TIM3, TIM_FLAG_Update);
     
@@ -89,27 +133,34 @@ void LedMatrix_Scan(void)
 {
     static int row = 0;
     int  line;                                          /*列计数 */
-    for (line = 0; line < LED_MATRIX_WIDTH; line++) {   /*80列显示点 */    
+    for (line = 0; line < LED_MATRIX_WIDTH; line++) {   
         /*
          * 	并串转换，将数据送到点阵上半屏
          */
         /*上半屏绿点*/
-        MatrixG1 = (vmem[row][line] & LED_COLOR_GREEN) ? 0 : 1; 
+        SET_PIN_G1(vmem[row][line] & LED_COLOR_GREEN);
+
         /*下半屏绿点*/
-        MatrixG2 = (vmem[row + 16][line] & LED_COLOR_GREEN) ? 0 : 1;
+        SET_PIN_G2(vmem[row + 16][line] & LED_COLOR_GREEN);
 
         /*上半屏红点*/
-        MatrixR1 = (vmem[row][line] & LED_COLOR_RED) ? 0 : 1;
+        SET_PIN_R1(vmem[row][line] & LED_COLOR_RED);
+
         /*下半屏红点*/
-        MatrixR2 = (vmem[row + 16][line] & LED_COLOR_RED) ? 0 : 1;
-        MatrixCLK = 0;
-        MatrixCLK = 1;//上升沿送出数据
+
+        SET_PIN_R2(vmem[row + 16][line] & LED_COLOR_RED);
+        
+        SET_PIN_CLK(0);
+        SET_PIN_CLK(1);//上升沿送出数据
+
     } 
-    MatrixSTB = 0;//
-    MatrixSTB = 1;//上升沿锁存一行数据	
+    SET_PIN_STB(0);
+    SET_PIN_STB(1);     //上升沿锁存一行数据	
+    SET_PIN_STB(0);
     
-    GPIOB->ODR = (GPIOB->ODR & 0x0FFF) | (row++ << 12);//显示当前行
+    GPIOB->ODR = GPIOB->ODR & 0xFFF0 | row;
     
+    row++;
     row &= 0xF;
 }
 
@@ -127,27 +178,7 @@ void TIM3_IRQHandler(void)
   */
 void LedMatrix_Init(void)
 {
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA|RCC_APB2Periph_GPIOB,ENABLE);
-    /*
-		GPIOA.6->R1,GPIOA.7->G1;推挽输出模式	
-	*/
-	GPIOA->CRL&=0X00FFFFFF;GPIOA->CRL|=0X33000000;
-
-	/*
-		GPIOB.0->R2,GPIOB.1->G2,GPIOB.2->CLK
-		GPIOB.10->STB,GPIOB.11->OE,;推挽输出模式	
-	*/
-	GPIOB->CRL&=0XFFFFF000;GPIOB->CRL|=0X00000333;
-	GPIOB->CRH&=0X00000000;GPIOB->CRH|=0X33333333;	
-        
-    MatrixOE=1;//关闭点阵
-	MatrixR1=1;
-	MatrixR2=1;
-	MatrixG1 = 1;
-	MatrixG2 = 1;
-	MatrixCLK = 1;
-	MatrixSTB = 1;
-	MatrixOE=0;//打开点阵
+    port_config();
     timer_config();
 } driver_init("led", LedMatrix_Init);
 
